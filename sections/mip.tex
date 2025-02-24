@@ -1,0 +1,184 @@
+\section{Mixed-Integer Programming}
+
+\begin{frame}{MIP -- Pipeline}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[text width=0.75\linewidth, align=center] (application) at (-2,3.25) {\textbf{Application} \\ {\small{ML, Stats, Signal, Operation Research, ...}}};
+                %
+                \node[align=center,text width=0.45\textwidth] (problem) at ($(application)+(0,-1.5)$) {
+                    \begin{blockcolor}{mDarkTeal}{Problem}
+                    \centering
+                    $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} + \pfunc(\pv)$
+                    \end{blockcolor}
+                };
+                \draw[->,ultra thick] (application) -- ($(problem)+(0,0.6)$);
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node[align=center,text width=0.45\textwidth] (formulation) at ($(problem)+(0,-2.75)$) {
+                    \begin{blockcolor}{mDarkTeal}{MIP formulation}
+                    \centering
+                    Standardized expressions
+                    \end{blockcolor}
+                };
+                \draw[->,ultra thick] (problem) -- ($(formulation)+(0,0.6)$);
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node (middle-problem-formulation) at ($(problem)!0.5!(formulation)+(0,-0.05)$) {};
+                \node[align=center,text width=0.375\textwidth,font=\small] (framework) at ($(middle-problem-formulation)+(5,0)$) {\textbf{Modelling framework} \\ $\begin{array}{rcl} \text{Python} & \rightarrow &  \texttt{cvxpy} \\ \text{Julia} & \rightarrow &  \texttt{JuMP} \\ \text{C++} & \rightarrow &  \texttt{CMPL} \\ \text{Matlab} & \rightarrow &  \texttt{YALMIP} \\ & ... & \end{array}$};
+                \fill[draw,thick,fill=mDarkTeal] (middle-problem-formulation) circle (0.075);
+                \draw[->,ultra thick,dashed] (middle-problem-formulation) -- ($(framework)+(-1.75,0)$);
+            }
+            %
+            %
+            %
+            \onslide<4-> {
+                \node[align=center,text width=0.425\textwidth,fill=mDarkTeal!15] (solution) at ($(formulation)+(0,-2.5)$) {\textbf{Problem solutions}};
+                \draw[->,ultra thick] (formulation) -- ($(solution)+(0,0.4)$);
+            }
+            %
+            %
+            %
+            \onslide<5-> {
+                \node (middle-formulation-solution) at ($(formulation)!0.5!(solution)+(0,-0.15)$) {};
+                \node[align=center,text width=0.375\textwidth,font=\small] (solver) at ($(middle-formulation-solution)+(5,0)$) {\textbf{Off-the-shelf solver} \\ Gurobi, CPLEX, SCIP, \\ Mosek, CbC, ...};
+                \fill[draw,thick,fill=mDarkTeal] (middle-formulation-solution) circle (0.075);
+                \draw[->,ultra thick,dashed] (middle-formulation-solution) -- ($(solver)+(-1.75,0)$);
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{MIP -- Formulation}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[align=center,text width=0.45\textwidth] (problem) at (-2.75,3.25) {
+                    \begin{blockcolor}{mDarkTeal}{Problem}
+                    \centering
+                    $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} + \pfunc(\pv)$
+                    \end{blockcolor}
+                };
+                %
+                \node[text width=0.55\linewidth,align=center,font=\small] at ($(problem)+(5.75,-0.15)$) {\textbf{MIP formulation} \\ Use standardized expressions \\ linear, quadratic, conic, ...};
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node (mip) at ($(problem)+(0,-2.9)$) {};
+                \node[text width=0.525\linewidth,align=center,font=\small] at ($(mip)+(5.75,-0.15)$) {\textbf{Linearize the $\boldsymbol{\ell}_{\0}$-norm} \\ We have $\norm{\pv}{0}$ $=$ $\transp{\1}\bv$ whenever \\ $\bvi{\idxentry} = 0$ $\iff$ $\pvi{\idxentry} = 0, \  \forall \idxentry$ \\ $\bvi{\idxentry} = 1$ $\iff$ $\pvi{\idxentry} \neq 0, \  \forall \idxentry$ \\ for all $\pv \in \kR^{\pdim}$ and $\bv \in \{0,1\}^{\pdim}$};
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node[align=center,text width=0.45\textwidth] (mip) at ($(problem)+(0,-2.9)$) {
+                    \begin{blockcolor}{mDarkTeal}{Linearized formulation}
+                    \centering
+                    $\left\{\begin{array}{rcl}\min && \lfunc(\pv) + \reg\textcolor{TolLightOrange}{\transp{\1}\bv} + \pfunc(\pv) \\
+                    \text{s.t.} && \textcolor{TolLightOrange}{\bvi{\idxentry} = 0 \implies \pvi{\idxentry} = 0, \ \forall \idxentry} \\
+                    && \pv \in \kR^{\pdim}, \ \textcolor{TolLightOrange}{\bv \in \{0,1\}^{\pdim}}\end{array}\right.$
+                    \end{blockcolor}
+                };
+                %
+                \draw[ultra thick,->] (problem) -- ($(mip.north)+(0,-0.25)$) node[midway,font=\small,fill=TolLightWhite,draw,ultra thick,yshift=1.5pt] {linearize the  $\ell_0$-norm};
+            }
+            %
+            %
+            %
+            \onslide<4-> {
+                \node[align=center,text width=0.45\textwidth] (practical-mip) at ($(mip)+(0,-3.25)$) {};
+                %
+                \node[text width=0.65\linewidth,align=center,font=\small] at ($(practical-mip)+(5.75,-0.15)$) {
+                    \textbf{Avoid logical constraint } \\[0.5em]
+                    $\tilde{\pfunc}(\pv,\bv) = 
+                    \begin{cases}
+                        \pfunc(\pv) &\text{if } \bvi{\idxentry} = 0 \implies \pvi{\idxentry} = 0, \forall \idxentry \\
+                        +\infty &\text{otherwise}
+                    \end{cases}
+                    $
+                };
+            }
+            %
+            %
+            %
+            \onslide<5-> {
+                \node[align=center,text width=0.45\textwidth] (practical-mip) at ($(mip)+(0,-3.25)$) {
+                    \begin{blockcolor}{mDarkTeal}{MIP formulation}
+                    \centering
+                    $\left\{\begin{array}{rcl}\min && \lfunc(\pv) + \reg\transp{\1}\bv + \textcolor{TolLightOrange}{\tilde{\pfunc}(\pv,\bv)} \\
+                    \text{s.t.} && \pv \in \kR^{\pdim}, \ \bv \in \{0,1\}^{\pdim}\end{array}\right.$
+                    \end{blockcolor}
+                };
+                %
+                \draw[ultra thick,->] (mip) -- ($(practical-mip.north)+(0,-0.25)$) node[midway,font=\small,fill=TolLightWhite,draw,ultra thick,yshift=1.5pt] {avoid logical cstr.};
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{MIP -- Penalty function}
+    \AddTodo{XXX}
+\end{frame}
+
+\begin{frame}{MIP -- Let's sum up}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[align=center,text width=0.425\textwidth] (problem) at (0,3) {
+                    \begin{blockcolor}{mDarkTeal}{Problem}
+                        \centering
+                        $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} + \pfunc(\pv)$
+                    \end{blockcolor}
+                };
+                %
+                \node[text width=0.425\linewidth,align=center] at ($(problem)+(0,-2.25)$) {
+                    \centering
+                    \textbf{Pipeline} \\
+                    \begin{enumerate}[label=\textbf{\arabic*)}]
+                    \item Introduce binary variable
+                    \item Establish MIP formulation
+                    \item Use generic MIP solvers
+                    \end{enumerate}
+                };
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node[align=center,text width=0.475\textwidth] (problem) at (-3,-2.25) {
+                    \begin{blockcolor}{TolLightGreen}{Pros}
+                    \centering
+                    \begin{itemize}[label=\ding{51}]
+                        \item Rich MIP literature
+                        \item Black-box solvers
+                        \item Straightforward pipeline
+                    \end{itemize}
+                    \end{blockcolor}
+                };
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node[align=center,text width=0.475\textwidth] (problem) at (3,-2.25) {
+                    \begin{blockcolor}{TolLightRed}{Cons}
+                    \centering
+                    \begin{itemize}[label=\ding{55}]
+                        \item Mostly commercial solvers
+                        \item $\pfunc$ as big-M or $\ell_2$-norm
+                        \item Performance issues
+                    \end{itemize}
+                    \end{blockcolor}
+                };
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}

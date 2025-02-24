@@ -1,0 +1,365 @@
+\begin{frame}{Sparse optimization}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[text width=0.75\linewidth,align=center] at (0,3.4) {\textbf{Sparse optimization} \\ Minimize a cost with a sparse solution};
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \begin{scope}[yshift=40]
+                \path[
+                    mindmap,
+                    concept color=mDarkTeal, 
+                    level 1 concept/.append style={
+                    minimum size    = 1.1cm,
+                    text width      = 1.1cm,
+                    level distance  = 3cm,
+                    sibling angle   = 60,
+                    font            = \scriptsize\bfseries,
+                    },
+                    level 2 concept/.append style={
+                    minimum size    = 1.1cm,
+                    text width      = 1.1cm,
+                    level distance  = 2cm,
+                    sibling angle   = 45,
+                    font            = \scriptsize,
+                    }
+                ]
+                node[concept,text=white,minimum size=1.6cm,text width=2.25cm] {\normalsize\textbf{Applications}}
+                [clockwise from=0]
+                child[concept color=TolLightRed!40] {
+                    node[concept] {signal process.}
+                    [clockwise from=45]
+                    child { node[concept] {signal denoising} }
+                    child { node[concept] {sparse decoding} }
+                    child { node[concept] {phase retrieval} }
+                    child { node[concept] {DOA design} }
+                }  
+                child[concept color=TolLightBrown!40] {
+                    node[concept] {operation research}
+                    [clockwise from=337.5]
+                    child { node[concept] {portfolio optim.} }
+                    child { node[concept] {network design} }
+                    child { node[concept] {facility location} }
+                }
+                child[concept color=TolLightGreen!40] {
+                    node[concept] {algebra}
+                    [clockwise from=-67.5]
+                    child { node[concept] {sparse factor.} }
+                    child { node[concept] {low-rank factor.} }
+                    child { node[concept] {feasible system} }
+                }
+                child[concept color=TolDarkBlue!40] {
+                    node[concept] {statistics \& ML} 
+                    [clockwise from=-90]
+                    child { node[concept] {sparse PCA} }
+                    child { node[concept] {sparse SVM} }
+                    child { node[concept] {dictionary learning} }
+                    child { node[concept] {feature selection} }
+                };
+                \end{scope}
+                %
+                \node[font=\small] at (0,-4) {A. Tillmann \textit{et. al} (2024)};
+            }
+            %
+            %
+            %
+            \onslide<3> {
+                \node[draw, ultra thick, fill=TolLightWhite, text width=0.325\linewidth,align=center,font=\scriptsize] at (-4,1.25) {$\begin{array}{rcl}
+                    \text{cost} & \rightarrow & \text{model accuracy} \\
+                    \text{sparsity} & \rightarrow & \text{model explainability}
+                \end{array}$};
+            }
+            %
+            %
+            %
+            \onslide<4> {
+                \node[draw, ultra thick, fill=TolLightWhite, text width=0.325\linewidth,align=center,font=\scriptsize] at (-2,-2) {$\begin{array}{rcl}
+                    \text{cost} & \rightarrow & \text{SVD decomposition} \\
+                    \text{sparsity} & \rightarrow & \text{low rank SVD}
+                \end{array}$};
+            }
+            %
+            %
+            %
+            \onslide<5> {
+                \node[draw, ultra thick, fill=TolLightWhite, text width=0.325\linewidth,align=center,font=\scriptsize] at (2,-2) {$\begin{array}{rcl}
+                    \text{cost} & \rightarrow & \text{return on products} \\
+                    \text{sparsity} & \rightarrow & \text{unit production cost}
+                \end{array}$};
+            }
+            %
+            %
+            %
+            \onslide<6> {
+                \node[draw, ultra thick, fill=TolLightWhite, text width=0.325\linewidth,align=center,font=\scriptsize] at (4,1.25) {$\begin{array}{rcl}
+                    \text{cost} & \rightarrow & \text{signal recovery} \\
+                    \text{sparsity} & \rightarrow & \text{signal spikes}
+                \end{array}$};
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+  
+\begin{frame}{Minimized, constrained, or regularized problem ?}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[text width=0.75\linewidth,align=center] (sparse) at (0,3.4) {\textbf{Sparse optimization} \\ Minimize a cost with a sparse solution};
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node[text width=0.35\textwidth,align=center] (loss) at (-3,1) {\textcolor{TolLightOrange}{$\lfunc(\pv)$} \\ loss function};
+                %
+                \draw [ultra thick,->] ($(sparse)+(-1.5,-0.5)$) -- (loss) node[midway,fill=TolLightWhite,draw,ultra thick] {\phantom{i}\phantom{i}cost\phantom{p}};
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node[text width=0.35\textwidth,align=center] (norm) at (3,1) {\textcolor{TolLightOrange}{$\norm{\pv}{0}$} \\ $\ell_0$-norm};
+                %
+                \draw [ultra thick,->] ($(sparse)+(1.5,-0.5)$) -- (norm) node[midway,fill=TolLightWhite,draw,ultra thick] {sparsity};
+            }
+            %
+            %
+            %
+            \onslide<4-> {
+                \draw [ultra thick,dashed,<->] ($(loss)+(1.25,0)$) -- ($(norm)+(-1.25,0)$) node[midway,below,text width=0.35\linewidth,align=center,font=\small] {optimization problem};
+            }
+            %
+            %
+            %
+            \onslide<5-> {
+                \node[text width=0.35\textwidth] at (-3,-1) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Constrained problem}}
+                    \centering
+                    $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \lfunc(\pv) \\ \text{subject to} & \ \norm{\pv}{0} \leq s\end{array}$
+                \end{blockcolor}
+                };
+            }
+            %
+            %
+            %
+            \onslide<6-> {
+                \node[text width=0.35\textwidth] at (3,-1) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Minimized problem}}
+                    \centering
+                    $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \norm{\pv}{0} \\ \text{subject to} & \ \lfunc(\pv) \leq \epsilon\end{array}$
+                \end{blockcolor}
+                };
+            }
+            %
+            %
+            %
+            \onslide<7-> {
+                \node[text width=0.35\textwidth] (reg) at (0,-3.25) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Regularized problem}}
+                    \centering
+                    $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0}$
+                \end{blockcolor}
+                };
+            }
+            %
+            %
+            %
+            \onslide<8-> {
+                \node at ($(reg)+(3.25,-0.35)$) {\textcolor{TolLightOrange}{$+ \ \pfunc(\pv)$ separable}};
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+  
+\begin{frame}{A bit of history}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node[align=center,text width=0.45\textwidth] (problem) at (0,3) {
+                    \begin{blockcolor}{mDarkTeal}{Problem}
+                        \centering
+                        $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} + \pfunc(\pv)$
+                    \end{blockcolor}
+                };
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node (origin) at (4.25,2) {};
+                \node[above left,font=\small] at ($(origin)+(0,0)$) {0};
+                \node[above left,font=\small] at ($(origin)+(0,0.75)$) {1};
+                \draw[ultra thick,->] ($(origin)+(-1,0)$) -- ($(origin)+(1, 0)$) node[right,font=\small] {$\pvi{}$};
+                \draw[ultra thick,->] ($(origin)+(0,-0.1)$) -- ($(origin)+(0,1.25)$) node[above,font=\small] {\textbf{$\boldsymbol{\ell}_0$-norm in 1d}};
+                \draw[-,very thick,TolLightOrange] ($(origin)+(-0.05,0.8)$) -- ($(origin)+(-1,0.8)$);
+                \draw[-,very thick,TolLightOrange] ($(origin)+(0.05,0.8)$) -- ($(origin)+(1,0.8)$);
+                \draw[TolLightOrange,very thick] ($(origin)+(0,0.8)$) circle (0.075);
+                \fill[TolLightOrange] (origin) circle (0.075);
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node[font=\small,text width=0.5\linewidth,align=center,anchor=north] at (origin.south) {non-convex, non-smooth, \\ non-continuous, ...};
+            }
+            %
+            %
+            %
+            \onslide<4-> {
+                \node at ($(problem.south)+(0,-0.1)$) {\textbf{NP-hard to solve}};
+            }
+            %
+            %
+            %
+            \onslide<5-> {
+                \node (linecenter) at ($(current page.north)+(0,-0.6\textheight)$) {};
+                \draw [ultra thick,->] ($(linecenter)+(-6,0)$) -- ($(linecenter)+(6,0)$);
+                %
+                \node (date1) at ($(linecenter)+(-5,0)$) {};
+                \draw [ultra thick,-] ($(date1)+(0,-0.02\textheight)$) -- ($(date1)+(0,0.02\textheight)$);
+                \node at ($(date1)+(0,+0.06\textheight)$)  {\textbf{1995}};
+                \node[text width=0.2\textwidth,align=center,font=\small] at ($(date1)+(0,-0.05\textheight)$) {Heuristics};
+                \node[text width=0.3\textwidth,align=center,font=\scriptsize] at ($(date1)+(0,-0.12\textheight)$) {MP, OMP, ... \\ S. Mallat (1993)};
+                %
+                \node (origin1) at ($(date1)+(0,-0.4\textheight)$) {};
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(-0.5,0)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(-0.5,0.3)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(-0.5,0.6)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(-0.5,0.9)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(-0.5,1.2)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(-0.5,1.5)$) circle (0.1);
+                \node at ($(origin1)+(-0.5,-0.4)$) {$\pv^1$};
+                %
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0,0)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(0,0.3)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0,0.6)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(0,0.9)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0,1.2)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0,1.5)$) circle (0.1);
+                \node at ($(origin1)+(0,-0.4)$) {$\pv^2$};
+                %
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0.5,0)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(0.5,0.3)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0.5,0.6)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(0.5,0.9)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightOrange] ($(origin1)+(0.5,1.2)$) circle (0.1);
+                \fill[draw,thick,fill=TolLightWhite] ($(origin1)+(0.5,1.5)$) circle (0.1);
+                \node at ($(origin1)+(0.5,-0.4)$) {$\pv^3$};
+            }
+            %
+            %
+            %
+            \onslide<6-> {
+                \node (date2) at ($(linecenter)+(-2.5,0)$) {};
+                \draw [ultra thick,-] ($(date2)+(0,-0.02\textheight)$) -- ($(date2)+(0,0.02\textheight)$);
+                \node at ($(date2)+(0,+0.06\textheight)$)  {\textbf{2000}};
+                \node[text width=0.25\textwidth,align=center,font=\small] at ($(date2)+(0,-0.053\textheight)$) {Recovery cond.};
+                \node[text width=0.3\textwidth,align=center,font=\scriptsize] at ($(date2)+(0,-0.12\textheight)$) {RIP, NSP, ... \\ E. Candes (2004)};
+                %
+                \node (origin2) at ($(date2)+(0,-0.4\textheight)$) {};
+                \node[text width=0.2\linewidth,align=center,font=\small] at ($(origin2)+(0,0.065\textheight)$) {Heuristics solve $\ell_0$-problem under some (strong) conditions};
+            }
+            %
+            %
+            %
+            \onslide<7-> {
+                \node (date3) at ($(linecenter)+(0,0)$) {};
+                \draw [ultra thick,-] ($(date3)+(0,-0.02\textheight)$) -- ($(date3)+(0,0.02\textheight)$);
+                \node at ($(date3)+(0,+0.06\textheight)$)  {\textbf{2005}};
+                \node[font=\small] at ($(date3)+(0,-0.053\textheight)$) {Convex approx.};
+                \node[text width=0.3\textwidth,align=center,font=\scriptsize] at ($(date3)+(0,-0.12\textheight)$) {Lasso, Elastic-Net, ... \\ R. Tibshirani (2005)};
+                %
+                \node (origin3) at ($(date3)+(0,-0.4\textheight)$) {};
+                \draw[ultra thick,->] ($(origin3)+(-1,0)$) -- ($(origin3)+(1, 0)$);
+                \draw[ultra thick,->] ($(origin3)+(0,0)$) -- ($(origin3)+(0,1.5)$);
+                \draw[-,very thick,TolLightOrange] ($(origin3)+(-0.05,0.8)$) -- ($(origin3)+(-1,0.8)$);
+                \draw[-,very thick,TolLightOrange] ($(origin3)+(0.05,0.8)$) -- ($(origin3)+(1,0.8)$);
+                \draw[very thick,dashed,TolLightOrange] (origin3) .. controls ($(origin3)+(-0.5,0.1)$) ..  ($(origin3)+(-1,0.8)$);
+                \draw[very thick,dashed,TolLightOrange] (origin3) .. controls ($(origin3)+(0.5,0.1)$) ..  ($(origin3)+(1,0.8)$);
+                \draw[TolLightOrange,very thick] ($(origin3)+(0,0.8)$) circle (0.075);
+                \fill[TolLightOrange] (origin3) circle (0.075);
+            }
+            %
+            %
+            %
+            \onslide<8-> {
+                \node (date4) at ($(linecenter)+(2.5,0)$) {};
+                \draw [ultra thick,-] ($(date4)+(0,-0.02\textheight)$) -- ($(date4)+(0,0.02\textheight)$);
+                \node at ($(date4)+(0,+0.06\textheight)$)  {\textbf{2010}};
+                \node[font=\small] at ($(date4)+(0,-0.053\textheight)$) {Concave approx.};
+                \node[text width=0.3\textwidth,align=center,font=\scriptsize] at ($(date4)+(0,-0.12\textheight)$) {SCAD, MCP, ... \\ C. Zhang (2010)};
+                %
+                \node (origin4) at ($(date4)+(0,-0.4\textheight)$) {};
+                \draw[ultra thick,->] ($(origin4)+(-1,0)$) -- ($(origin4)+(1, 0)$);
+                \draw[ultra thick,->] ($(origin4)+(0,0)$) -- ($(origin4)+(0,1.5)$);
+                \draw[-,very thick,TolLightOrange] ($(origin4)+(-0.05,0.8)$) -- ($(origin4)+(-1,0.8)$);
+                \draw[-,very thick,TolLightOrange] ($(origin4)+(0.05,0.8)$) -- ($(origin4)+(1,0.8)$);
+                \draw[very thick,TolLightOrange,dashed] (origin4) .. controls ($(origin4)+(-0.5,0.8)$) ..  ($(origin4)+(-1,0.8)$);
+                \draw[very thick,TolLightOrange,dashed] (origin4) .. controls ($(origin4)+(0.5,0.8)$) ..  ($(origin4)+(1,0.8)$);
+                \draw[TolLightOrange,very thick] ($(origin4)+(0,0.8)$) circle (0.075);
+                \fill[TolLightOrange] (origin4) circle (0.075);
+            }
+            %
+            %
+            %
+            \onslide<9-> {
+                \node (date5) at ($(linecenter)+(5,0)$) {};
+                \draw[ultra thick,-] ($(date5)+(0,-0.02\textheight)$) -- ($(date5)+(0,0.02\textheight)$);
+                \node at ($(date5)+(0,+0.06\textheight)$)  {\textbf{2015}};
+                \node[text width=0.22\textwidth,align=center,font=\small,TolLightOrange] at ($(date5)+(0,-0.05\textheight)$) {Exact methods};
+                \node[text width=0.3\textwidth,align=center,font=\scriptsize] at ($(date5)+(0,-0.12\textheight)$) {MIP, BnB, ... \\ D. Bertsimas (2016)};
+                %
+                \node (origin5) at ($(date5)+(0,-0.4\textheight)$) {};
+                \draw[ultra thick,->] ($(origin5)+(-1,0)$) -- ($(origin5)+(1, 0)$);
+                \draw[ultra thick,->] ($(origin5)+(0,0)$) -- ($(origin5)+(0,1.5)$);
+                \draw[-,very thick,TolLightOrange] ($(origin5)+(-0.05,0.8)$) -- ($(origin5)+(-1,0.8)$);
+                \draw[-,very thick,TolLightOrange] ($(origin5)+(0.05,0.8)$) -- ($(origin5)+(1,0.8)$);
+                \draw[TolLightOrange,very thick] ($(origin5)+(0,0.8)$) circle (0.075);
+                \fill[TolLightOrange] (origin5) circle (0.075);
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Topic of this talk}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\linewidth]
+            \onslide<1-> {
+                \node[text width=0.4\linewidth,align=center,draw,very thick,rounded corners=0.25cm] at (-3,2.5) {Ok, $\ell_0$-problems can be addressed exactly!};
+                %
+                \draw[very thick] (-2,1.98) .. controls (-2.1,1.7) .. (-2.75,1);
+                %
+                \node at (-3.5,1) {\includegraphics[width=30pt]{imgs/nerd-face.png}};
+                %
+                \node at (-3.5,0.1) {(you)};
+            }
+            %
+            %
+            %
+            \onslide<2-> {
+                \node[text width=0.4\linewidth,align=center,draw,very thick,rounded corners=0.25cm] at (3,2.5) {What are the solution \\ \phantom{p} methods then?};
+                %
+                \draw[very thick] (4,1.98) .. controls (3.9,1.7) .. (3.25,1);
+                %
+                \node at (2.5,1) {\includegraphics[width=30pt]{imgs/thinking-face.png}};
+                %
+                \node at (2.5,0.1) {(also you if you're an optim. nerd)};
+            }
+            %
+            %
+            %
+            \onslide<3-> {
+                \node[text width=0.75\linewidth,align=center] at (0,-1.25) {\textbf{1) MIP-based methods} \\ Based on off-the-shelf solvers \\ Poor numerical performances};
+            }
+            %
+            %
+            %
+            \onslide<4-> {
+                \node[text width=0.75\linewidth,align=center] at (0,-3) {\textbf{2) Specialized Branch-and-Bound} \\ Tailored solution method \\ Better numerical performances};
+            }
+        \end{scope}
+    \end{tikzpicture}
+\end{frame}

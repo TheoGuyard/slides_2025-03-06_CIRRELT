@@ -1,0 +1,70 @@
+\section{Conclusion}
+
+\begin{frame}{A community with a bunch of people}
+    \begin{tikzpicture}[remember picture,overlay]
+        \onslide<1-> {
+            \node[fill=TolLightOrange!75] at ($(current page.north)+(4.8,-1.3)$) {\textcolor{TolLightWhite}{Non-exhaustive list}};
+        }
+        %
+        %
+        %
+        \onslide<2-> {
+            \node[align=center,text width=0.3\linewidth] (usa) at ($(current page.center)+(-2.3,2)$) {\includegraphics[width=1.5\textwidth]{imgs/usa.png}};
+            %
+            \draw[<-,very thick] ($(usa)+(1.9,-0.7)$) .. controls ($(usa)+(4.7,-0.4)$) .. ($(usa)+(5,0.1)$) node [above,align=center,font=\scriptsize] {\textbf{MIT}~\\ D. Bertsimas, R. Mazmuder, ...~\\\textit{Optimization tools for $\ell_0$-problems}};
+        }
+        %
+        %
+        %
+        \onslide<3-> {
+            \draw[<-,very thick] ($(usa)+(0.25,0.45)$) .. controls ($(usa)+(-1.9,0.1)$) .. ($(usa)+(-2.3,-0.1)$) node [below,align=center,font=\scriptsize] {\textbf{Google Deep Mind}~\\ H. Hazimeh, A. Dedieu, ...~\\\textit{MIP-based heuristics}};
+            %
+            \draw[<-,very thick] ($(usa)+(-0.5,-1.2)$) .. controls ($(usa)+(-1.5,-1.4)$) .. ($(usa)+(-2,-1.9)$) node [below,align=center,font=\scriptsize] {\textbf{Berkley}~\\ A. Atamtürk, A. Gomès, ...~\\\textit{Convex-based acceleration}};
+        }
+        %
+        %
+        %
+        \onslide<4-> {
+            \node[align=center,text width=0.3\linewidth] (europe) at ($(current page.center)+(3.75,-2.5)$) {\includegraphics[width=1.5\textwidth]{imgs/europe.png}};
+            %
+            \draw[<-,very thick] ($(europe)+(0.7,1)$) .. controls ($(europe)+(0.5,1.5)$) .. ($(europe)+(1.1,3.5)$) node [above,align=center,font=\scriptsize] {\textbf{Lund University}~\\ M. Carlsson, C. Olsson...~\\\textit{Relaxation design}};
+            %
+            \draw[<-,very thick] ($(europe)+(0.4,0.1)$) .. controls ($(europe)+(-0.5,1.5)$) .. ($(europe)+(-1.2,2.5)$) node [above,align=center,font=\scriptsize] {\textbf{Frankfurt / Wurzburg Universities}~\\ C. Kanzow, A. Tillmann, ...~\\\textit{Optimality conditions}};
+            %
+            \draw[<-,very thick] ($(europe)+(-0.4,0.5)$) .. controls ($(europe)+(-1,1.3)$) .. ($(europe)+(-2,1.5)$) node [above left,align=center,font=\scriptsize] {\textbf{London Business School}~\\ J. Pauphilet, R. Cory-Wright, ...~\\\textit{Healthcare applications}};
+        }
+        %
+        %
+        %
+        \onslide<5-> {
+            \draw[<-,very thick] ($(europe)+(0.2,-0.6)$) .. controls ($(europe)+(-1.5,0.8)$) .. ($(europe)+(-2.5,0.9)$) node [left,align=center,font=\scriptsize] {\textbf{Ponts ParisTech}~\\ M. De Lara, P. Chancelier, A. Parmentier, ...~\\\textit{Non-convex analysis, ML appli.}};
+            %
+            \draw[<-,very thick] ($(europe)+(-0.4,-0.4)$) .. controls ($(europe)+(-1,-0.4)$) .. ($(europe)+(-5,-0.2)$) node [left,align=center,font=\scriptsize] {\textbf{Centrale Nantes / ENSTA Bretagne}~\\ S. Bourguignon, J. Ninin, ...~\\\textit{BnB with quadratic loss}};
+            %
+            \draw[<-,very thick] ($(europe)+(-0.2,-0.7)$) .. controls ($(europe)+(-4,-0.7)$) .. ($(europe)+(-5.7,-0.9)$) node [below left,align=center,font=\scriptsize] {\textbf{Inria / CentraleSupélec}~\\ C. Herzet, C. Elvira, A. Arslan, ...~\\\textit{Generic and efficient BnB}};
+            %
+            \draw[<-,very thick] ($(europe)+(0.1,-0.8)$) .. controls ($(europe)+(-0.5,-1.5)$) .. ($(europe)+(-1.7,-1.5)$) node [left,align=center,font=\scriptsize] {\textbf{IRIT / I3S}~\\ E. Soubies, L. Blanc-Féraud, ...~\\\textit{Convex-concave relaxation}};
+        }
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \Large{\textbf{Take-home messages}}
+    \end{center}
+    ~\\
+    \begin{itemize}[label=\textbullet]
+        \item Although \textcolor{TolLightOrange}{NP-hard}, $\ell_0$-problems are of \textcolor{TolLightOrange}{practical interest}
+        \item There exists methods to tackle them exactly
+        \begin{itemize}[label=\textbullet]
+        \item \textcolor{TolLightOrange}{MIP-based} formulation and off-the-shelf solvers
+        \item Specialized \textcolor{TolLightOrange}{BnB} algorithms
+        \item \textcolor{TolLightOrange}{Structure-exploitation} is key
+        \end{itemize}
+        \item It's an active research area
+        \begin{itemize}[label=\textbullet]
+        \item Theoretical and methodological developments missing
+        \item Need to reach the application world
+        \end{itemize}
+    \end{itemize}
+\end{frame}
