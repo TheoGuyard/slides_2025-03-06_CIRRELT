@@ -2,7 +2,7 @@
     \begin{tikzpicture}[remember picture,overlay]
         \begin{scope}[xshift=0.5\textwidth]
             \onslide<1-> {
-                \node[text width=0.75\linewidth,align=center] at (0,3.4) {\textbf{Sparse optimization} \\ Minimize a cost with a sparse solution};
+                \node[text width=0.75\linewidth,align=center] at (0,3.4) {\textbf{Sparse optimization} \\Minimize a function using a sparse vector};
             }
             %
             %
@@ -107,7 +107,7 @@
     \begin{tikzpicture}[remember picture,overlay]
         \begin{scope}[xshift=0.5\textwidth]
             \onslide<1-> {
-                \node[text width=0.75\linewidth,align=center] (sparse) at (0,3.4) {\textbf{Sparse optimization} \\ Minimize a cost with a sparse solution};
+                \node[text width=0.75\linewidth,align=center] (sparse) at (0,3.4) {\textbf{Sparse optimization} \\ Minimize a function using a sparse vector};
             }
             %
             %
@@ -123,19 +123,21 @@
             \onslide<3-> {
                 \node[text width=0.35\textwidth,align=center] (norm) at (3,1) {\textcolor{TolLightOrange}{$\norm{\pv}{0}$} \\ $\ell_0$-norm};
                 %
+                \draw[ultra thick,dashed,->] ($(norm)+(0.5,0.25)$) .. controls ($(norm)+(1.75,0.5)$) .. ($(norm)+(2,1)$) node[above,text width=0.3\textwidth,align=center,font=\small] {number of non-zeros in $\pv$};
+                %
                 \draw [ultra thick,->] ($(sparse)+(1.5,-0.5)$) -- (norm) node[midway,fill=TolLightWhite,draw,ultra thick] {sparsity};
             }
             %
             %
             %
             \onslide<4-> {
-                \draw [ultra thick,dashed,<->] ($(loss)+(1.25,0)$) -- ($(norm)+(-1.25,0)$) node[midway,below,text width=0.35\linewidth,align=center,font=\small] {optimization problem};
+                \draw [ultra thick,<->] ($(loss)+(1.25,0)$) -- ($(norm)+(-1.25,0)$) node[midway,below,text width=0.35\linewidth,align=center,font=\small] {optimization problem};
             }
             %
             %
             %
             \onslide<5-> {
-                \node[text width=0.35\textwidth] at (-3,-1) {
+                \node[text width=0.35\textwidth] (con) at (-3,-1) {
                 \begin{blockcolor}{mDarkTeal}{\textbf{Constrained problem}}
                     \centering
                     $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \lfunc(\pv) \\ \text{subject to} & \ \norm{\pv}{0} \leq s\end{array}$
@@ -146,7 +148,7 @@
             %
             %
             \onslide<6-> {
-                \node[text width=0.35\textwidth] at (3,-1) {
+                \node[text width=0.35\textwidth] (min) at (3,-1) {
                 \begin{blockcolor}{mDarkTeal}{\textbf{Minimized problem}}
                     \centering
                     $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \norm{\pv}{0} \\ \text{subject to} & \ \lfunc(\pv) \leq \epsilon\end{array}$
@@ -157,7 +159,7 @@
             %
             %
             \onslide<7-> {
-                \node[text width=0.35\textwidth] (reg) at (0,-3.25) {
+                \node[text width=0.45\textwidth] (reg) at (0,-3.25) {
                 \begin{blockcolor}{mDarkTeal}{\textbf{Regularized problem}}
                     \centering
                     $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0}$
@@ -168,7 +170,26 @@
             %
             %
             \onslide<8-> {
-                \node at ($(reg)+(3.25,-0.35)$) {\textcolor{TolLightOrange}{$+ \ \pfunc(\pv)$ separable}};
+                \node[text width=0.35\textwidth] at (-3,-1) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Constrained problem}}
+                    \centering
+                    $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \lfunc(\pv) \textcolor{TolLightOrange}{\ + \ \pfunc(\pv)} \\ \text{subject to} & \ \norm{\pv}{0} \leq s\end{array}$
+                \end{blockcolor}
+                };
+                %
+                \node[text width=0.35\textwidth] (min) at (3,-1) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Minimized problem}}
+                    \centering
+                    $\begin{array}{ll} \min_{\pv \in \kR^{\pdim}} & \ \norm{\pv}{0} \textcolor{TolLightOrange}{\ + \ \pfunc(\pv)} \\ \text{subject to} & \ \lfunc(\pv) \leq \epsilon\end{array}$
+                \end{blockcolor}
+                };
+                %
+                \node[text width=0.45\textwidth] (reg) at (0,-3.25) {
+                \begin{blockcolor}{mDarkTeal}{\textbf{Regularized problem}}
+                    \centering
+                    $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} \textcolor{TolLightOrange}{\ + \ \pfunc(\pv)}$
+                \end{blockcolor}
+                };
             }
         \end{scope}
     \end{tikzpicture}
@@ -358,7 +379,7 @@
             %
             %
             \onslide<4-> {
-                \node[text width=0.75\linewidth,align=center] at (0,-3) {\textbf{2) Specialized Branch-and-Bound} \\ Tailored solution method \\ Better numerical performances};
+                \node[text width=0.75\linewidth,align=center] at (0,-3) {\textbf{2) BnB-based methods} \\ Tailored solution method \\ Better numerical performances};
             }
         \end{scope}
     \end{tikzpicture}

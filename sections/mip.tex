@@ -100,7 +100,7 @@
                     \textbf{Avoid logical constraint } \\[0.5em]
                     $\tilde{\pfunc}(\pv,\bv) = 
                     \begin{cases}
-                        \pfunc(\pv) &\text{if } \bvi{\idxentry} = 0 \implies \pvi{\idxentry} = 0, \forall \idxentry \\
+                        \pfunc(\pv) &\text{if } \bvi{\idxentry} = \pvi{\idxentry} = 0 \text{ or } \bvi{\idxentry}=1, \forall \idxentry \\
                         +\infty &\text{otherwise}
                     \end{cases}
                     $
@@ -125,7 +125,55 @@
 \end{frame}
 
 \begin{frame}{MIP -- Penalty function}
-    \AddTodo{XXX}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<+-> {
+                \node at (0,3.5) {\textbf{Two existing strategies to design $\tilde{\pfunc}(\pv,\bv)$}};
+                %
+                \node[text width=0.65\linewidth,align=center,font=\small] at (0,2.5) {
+                    $\tilde{\pfunc}(\pv,\bv) = 
+                    \begin{cases}
+                        \pfunc(\pv) &\text{if } \bvi{\idxentry} = \pvi{\idxentry} = 0 \text{ or } \bvi{\idxentry}=1, \forall \idxentry \\
+                        +\infty &\text{otherwise}
+                    \end{cases}
+                    $
+                };
+            }
+            %
+            %
+            %
+            \onslide<+-> {
+                \node[text width=0.4\linewidth,align=center] (bigm-pv) at (-3,0.5) {\textbf{Big-M strategy} \\ $\pfunc(\pv) = \sum_{\idxentry=1}^{\pdim} \icvx(\abs{\pvi{\idxentry}} \leq \bigM)$ \\ with $\bigM > 0$};
+            }
+            %
+            \onslide<+-> {
+                \node (bigm-pvbv) at (-3,-1.5) {$\tilde{\pfunc}(\pv,\bv) = \sum_{\idxentry=1}^{\pdim} \icvx(\abs{\pvi{\idxentry}} \leq \bigM\textcolor{TolLightOrange}{\bvi{\idxentry}})$};
+                %
+                \draw[->,ultra thick] (bigm-pv) -- (bigm-pvbv);
+            }
+            %
+            %
+            %
+            \onslide<+-> {
+                \node[text width=0.4\linewidth,align=center] (l2norm-pv) at (3,0.5) {\textbf{$\boldsymbol{\ell}_2$-norm strategy} \\ $\pfunc(\pv) = \sum_{\idxentry=1}^{\pdim} \regtwo\pvi{\idxentry}^2$ \\ with $\regtwo > 0$};
+            }
+            %
+            \onslide<+-> {
+                \node (l2norm-pvbv) at (3,-1.5) {$\tilde{\pfunc}(\pv,\bv) = \sum_{\idxentry=1}^{\pdim} \regtwo\tfrac{\pvi{\idxentry}^2}{\textcolor{TolLightOrange}{\bvi{\idxentry}}}$};
+                %
+                \draw[->,ultra thick] (l2norm-pv) -- (l2norm-pvbv);
+            }
+            %
+            %
+            %
+            \onslide<+-> {
+                \node[font=\small] (linear) at (-3,-2.25) {Linear expressions};
+                \node[font=\small] (conic) at (3,-2.25) {Conic expressions};
+                %
+                \draw[ultra thick,<->] (linear) .. controls (0,-3.5) .. (conic) node[midway,below,font=\small] {Standard for off-the-shelf MIP solvers};
+            }
+        \end{scope}
+    \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{MIP -- Let's sum up}
@@ -139,12 +187,13 @@
                     \end{blockcolor}
                 };
                 %
-                \node[text width=0.425\linewidth,align=center] at ($(problem)+(0,-2.25)$) {
+                \node[text width=0.6\linewidth,align=center] at ($(problem)+(0,-2.5)$) {
                     \centering
                     \textbf{Pipeline} \\
                     \begin{enumerate}[label=\textbf{\arabic*)}]
-                    \item Introduce binary variable
-                    \item Establish MIP formulation
+                    \item Introduce binary variable $\bv \in \{0,1\}^{\pdim}$
+                    \item Linearize $\ell_0$-norm as $\norm{\pv}{0} = \transp{\1}\bv$
+                    \item Transform $\pfunc(\pv)$ into $\tilde{\pfunc}(\pv,\bv)$
                     \item Use generic MIP solvers
                     \end{enumerate}
                 };
@@ -153,7 +202,7 @@
             %
             %
             \onslide<2-> {
-                \node[align=center,text width=0.475\textwidth] (problem) at (-3,-2.25) {
+                \node[align=center,text width=0.475\textwidth] (problem) at (-3,-2.5) {
                     \begin{blockcolor}{TolLightGreen}{Pros}
                     \centering
                     \begin{itemize}[label=\ding{51}]
@@ -168,12 +217,12 @@
             %
             %
             \onslide<3-> {
-                \node[align=center,text width=0.475\textwidth] (problem) at (3,-2.25) {
+                \node[align=center,text width=0.475\textwidth] (problem) at (3,-2.5) {
                     \begin{blockcolor}{TolLightRed}{Cons}
                     \centering
                     \begin{itemize}[label=\ding{55}]
                         \item Mostly commercial solvers
-                        \item $\pfunc$ as big-M or $\ell_2$-norm
+                        \item Only for $\pfunc =$ big-M/$\ell_2$-norm
                         \item Performance issues
                     \end{itemize}
                     \end{blockcolor}

@@ -1,0 +1,140 @@
+\section{Numerical Illustration}
+
+\begin{frame}{Numerics -- Feature Selection Problem}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\linewidth]
+            \onslide<1-> {
+            \node[text width=0.45\linewidth, align=center] (problem) at (0,3) {
+                \begin{blockcolor}{mDarkTeal}{Problem}
+                    \centering
+                    $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \reg\norm{\pv}{0} + \pfunc(\pv)$
+                \end{blockcolor}
+            };
+            %
+            \node[font=\small] at (0,1.75) {$\dic \in \kR^{62\times2000}$ from ML dataset / $\lfunc$ : Logistic / $\pfunc$ : $\ell_2$-norm};
+            }
+        \end{scope}
+        %
+        %
+        %
+        \begin{scope}[xshift=0.4\linewidth,yshift=-65]
+            \pgfplotscreateplotcyclelist{cycle_simpruning}{
+                TolLightGreen, very thick, smooth\\
+                TolDarkRed, very thick, smooth\\
+            }
+            %
+        \end{scope}
+
+
+        % \begin{scope}[xshift=0.4\linewidth,yshift=-65]
+        %     \pgfplotscreateplotcyclelist{cycle_simpruning}{
+        %     TolLightGreen, very thick, smooth\\
+        %     TolDarkRed, very thick, smooth\\
+        %     }
+        %     %
+        %     \onslide<2-> {
+        %     \draw[very thick,->] (0.75,-0.25) -- (2.65,-0.25) node[midway,below,font=\scriptsize] {less sparse};
+        %     \draw[very thick,dotted] (0,2.27) -- (3.35,2.27) node[midway,above,font=\scriptsize,xshift=15pt] {1 hour};
+        %     \draw[very thick,<-] (0.25,2.35) -- (0.25,3) node[above,font=\scriptsize] {0 nnz};
+        %     }
+        %     %
+        %     %
+        %     %
+        %     \onslide<3-> {
+        %     \node[text width=0.6\linewidth,align=left,font=\small] at (7.25,1.25) {\textbf{MIP solvers} \\ \ref{plot:bnb-Scip} \textcolor{mDarkTeal!25}{Scip} \\ \ref{plot:bnb-Cplex} \textcolor{mDarkTeal!25}{Cplex} \\ \ref{plot:bnb-Mosek} Mosek \\ \textbf{BnB solvers} \\ \ref{plot:bnb-L0Bnb} \textcolor{mDarkTeal!25}{L0Bnb} \\ \ref{plot:bnb-SBnb} \textcolor{mDarkTeal!25}{SBnb} \\ \ref{plot:simpruning:bnb-el0ps+} El0ps};
+        %     }
+        %     %
+        %     %
+        %     %
+        %     \onslide<4-> {
+        %     \draw[very thick,<-] (0.9,2.35) -- (0.9,2.75) node[above,font=\scriptsize] {17 nnz};
+        %     }
+        %     %
+        %     %
+        %     %
+        %     \onslide<6-> {
+        %     \draw[very thick,<-] (3.25,2.35) -- (3.25,2.75) node[above,font=\scriptsize] {71 nnz};
+        %     }
+        %     %
+        %     %
+        %     %
+        %     \onslide<2> {
+        %     \begin{axis}[
+        %         width   = 0.475\textwidth,
+        %         height  = 0.4\textwidth,,
+        %         legend style={
+        %             at={(1.1,0.5)},
+        %             anchor=west,
+        %             legend columns=1,
+        %             draw=none
+        %         },
+        %         cycle list name=cycle_simpruning,
+        %         mbaseplot,
+        %         axis line style = ultra thick,
+        %         major tick style = {ultra thick,color=mDarkTeal},
+        %         xmajorgrids=true,
+        %         ymajorgrids=true,
+        %         major grid style={dotted},
+        %         axis x line=bottom,
+        %         axis y line=left,
+        %         ymode=log,
+        %         minor tick style={draw=none},
+        %         ymin=0.005,
+        %         ymax=60000,
+        %         xmin=-5,
+        %         xmax=79,
+        %         ylabel=\textbf{\small{Time (sec.)}},
+        %         xtick={0,70},
+        %         ytick={0.01,1,100,10000},
+        %         xticklabels={$\reg_{\max}$,$\reg_{\min}$},
+        %     ]
+        %     \end{axis}
+        %     }
+        %     %
+        %     %
+        %     %
+        %     \onslide<5-> {
+        %     \begin{axis}[
+        %         width   = 0.475\textwidth,
+        %         height  = 0.4\textwidth,,
+        %         legend style={
+        %             at={(1.1,0.5)},
+        %             anchor=west,
+        %             legend columns=1,
+        %             draw=none
+        %         },
+        %         cycle list name=cycle_simpruning,
+        %         mbaseplot,
+        %         axis line style = ultra thick,
+        %         major tick style = {ultra thick,color=mDarkTeal},
+        %         xmajorgrids=true,
+        %         ymajorgrids=true,
+        %         major grid style={dotted},
+        %         axis x line=bottom,
+        %         axis y line=left,
+        %         ymode=log,
+        %         minor tick style={draw=none},
+        %         ymin=0.005,
+        %         ymax=60000,
+        %         xmin=-5,
+        %         xmax=79,
+        %         ylabel=\textbf{\small{Time (sec.)}},
+        %         xtick={0,70},
+        %         ytick={0.01,1,100,10000},
+        %         xticklabels={$\reg_{\max}$,$\reg_{\min}$},
+        %     ]
+    
+        %         \foreach \solver in {mosek,el0ps+}{
+        %         \addplot table[
+        %             x=n_nnz,
+        %             y=\solver_solve_time,
+        %             col sep=comma
+        %         ] {data/regpath_colon_cancer_l2bigm.csv};
+        %         \label{plot:simpruning:bnb-\solver}
+        %         }
+        %     \end{axis}
+        %     }
+        % \end{scope}
+    \end{tikzpicture}
+  \end{frame}
+  

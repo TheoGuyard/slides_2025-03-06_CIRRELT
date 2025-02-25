@@ -70,17 +70,34 @@
             \draw[ultra thick, fill=gray!20,rotate=15] (0,0) ellipse (3.5cm and 1.75cm);
             \node[rotate=15] at (-0.5,1.25) {\small{Feasible space $\kR^{\pdim}$}};
             %
-            \foreach \x in {-3,-2,...,3} {
-                \foreach \y in {-1.5,-0.5,...,1.5} {
-                    \draw[black,fill=black] (\x,\y) circle (0.1cm);
-                }
-            }
+            \draw[black,fill=black] (1,1.5) circle (0.075cm);
+            \draw[black,fill=black] (2,1.5) circle (0.075cm);
+            %
+            \draw[black,fill=black] (-2,0.5) circle (0.075cm);
+            \draw[black,fill=black] (-1,0.5) circle (0.075cm);
+            \draw[black,fill=black] (0,0.5) circle (0.075cm);
+            \draw[black,fill=black] (1,0.5) circle (0.075cm);
+            \draw[black,fill=black] (2,0.5) circle (0.075cm);
+            \draw[black,fill=black] (3,0.5) circle (0.075cm);
+            %
+            \draw[black,fill=black] (-3,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (-2,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (-1,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (0,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (1,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (2,-0.5) circle (0.075cm);
+            %
+            \draw[black,fill=black] (-2,-1.5) circle (0.075cm);
+            \draw[black,fill=black] (-1,-1.5) circle (0.075cm);
+            \draw[black,fill=black] (0,-1.5) circle (0.075cm);
         }
         %
         %
         %
         \onslide<3-> {
-            \draw[ultra thick, fill=gray!40,rotate=30,opacity=0.5] (1,-1) ellipse (1cm and 0.75cm);
+            \draw[ultra thick, fill=gray!40,rotate=30] (1,-1.05) ellipse (1cm and 0.75cm);
+            \draw[black,fill=black] (1,-0.5) circle (0.075cm);
+            \draw[black,fill=black] (2,-0.5) circle (0.075cm);
             \node[rotate=15] at (1.4,0) {\small{Region $\nodeSymb$}};
         }
         %
@@ -94,13 +111,39 @@
         %
         \onslide<5-> {
             \node[font=\small] at (4,-1.75) {No solutions in region $\nodeSymb$};
-            \draw[ultra thick,fill=TolLightRed!50,rotate=30] (1,-1) ellipse (1cm and 0.75cm);
+            \draw[ultra thick,fill=TolLightRed!50,rotate=30] (1,-1.05) ellipse (1cm and 0.75cm);
+            \draw[TolLightRed,fill=TolLightRed] (1,-0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (2,-0.5) circle (0.075cm);
             \node[rotate=15] at (1.4,0) {\small{Region $\nodeSymb$}};
         }
         %
         %
         %
+        %
+        %
+        %
         \onslide<6-> {
+            \draw[TolLightRed,fill=TolLightRed] (1,1.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (2,1.5) circle (0.075cm);
+            %
+            \draw[TolLightRed,fill=TolLightRed] (-2,0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (0,0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (1,0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (2,0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (3,0.5) circle (0.075cm);
+            %
+            \draw[TolLightRed,fill=TolLightRed] (-3,-0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (-1,-0.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (0,-0.5) circle (0.075cm);
+            %
+            \draw[TolLightRed,fill=TolLightRed] (-2,-1.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (-1,-1.5) circle (0.075cm);
+            \draw[TolLightRed,fill=TolLightRed] (0,-1.5) circle (0.075cm);
+        }
+        %
+        %
+        %
+        \onslide<7-> {
             \node at (0,-3.25) {$\begin{array}{lcl}\textbf{Branching step} &\textbf{--}& \text{Region design and exploration} \\  \textbf{Bounding step}  &\textbf{--}& \text{Pruning test evaluation} \end{array}$};
         }
         \end{scope}
@@ -429,8 +472,65 @@
 %     \end{tikzpicture}
 % \end{frame}
 
-\begin{frame}{BnB -- Geometrical illustration}
-    \AddTodo{XXX}
+\begin{frame}{BnB -- Geometrical intuition}
+    \begin{tikzpicture}[remember picture,overlay]
+        \begin{scope}[xshift=0.5\textwidth]
+            \onslide<1-> {
+                \node (cvx) at (0,3.25) {\textbf{Convex envelope of $\rfunc(\pv) = \reg\norm{\pv}{0} + \pfunc(\pv)$ with $\pv \in \kR^{\pdim}$}};
+            }
+            %
+            \onslide<2-> {
+                \node (cvx-1d) at (0,1.5) {\textbf{Convex envelope of $\rfunc(\pvi{}) = \reg\norm{\pvi{}}{0} + \pfunc(\pvi{})$ with $\pvi{} \in \kR$}};
+                %
+                \draw[very thick,<->] (cvx) -- (cvx-1d) node[midway,fill=TolLightWhite,draw,font=\small] {$\pfunc$ \textcolor{TolLightOrange}{separable} and \textcolor{TolLightOrange}{coercive}};
+            }
+            %
+            \begin{scope}[yshift=-0.35\textheight,scale=1.5]
+                \onslide<3-> {
+                  \node[right,LavenderBlush4] at (-2.5,2.25) {$\rfunc(\pvi{}) = \reg\norm{\pvi{}}{0} + \pfunc(\pvi{})$};
+                  \draw[ultra thick,->] (-2.5,-0.5) -- (2.5,-0.5) node[right] {$\pvi{}$};
+                  \draw[ultra thick,->] (0,-0.7) -- (0,2.5);
+                  %
+                  \draw[domain=-1.75:-0.05,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
+                  \draw[domain=0.05:1.75,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
+                  \fill[LavenderBlush4] (0,0) circle (0.05);
+                  \draw[LavenderBlush4,ultra thick] (0,0.5) circle (0.05);
+                }
+                %
+                \onslide<4-> {
+                    \draw[LavenderBlush4,very thick,<->] (-0.2,0.05) -- (-0.2,0.45) node[midway,left] {$\reg$};
+                    \node[below left,LavenderBlush4] at (0,0) {$\pfunc(0)$};
+                }
+                %
+                %
+                %
+                \onslide<5-> {
+                  \draw[very thick,dashed] (0,0) -- (2,1.95);
+                  \fill[LavenderBlush4] (0,0) circle (0.05);
+                  \fill[mDarkTeal] (1,0.95) circle (0.05);
+                }
+                %
+                %
+                %
+                \onslide<6-> {
+                  \draw[ultra thick,TolLightOrange,dashed] (0,0) -- (1,0.975);
+                  \draw[domain=1:1.75,smooth,variable=\x,TolLightOrange,dashed,ultra thick] plot ({\x}, {0.45 + 0.5*\x*\x});
+                  \fill[LavenderBlush4] (0,0) circle (0.05);
+                  \fill[mDarkTeal] (1,0.95) circle (0.05);
+                }
+                %
+                %
+                %
+                \onslide<7-> {
+                    \draw[ultra thick,TolLightOrange,dashed] (-1,0.975) -- (0,0);
+                    \draw[domain=-1.75:-1,smooth,variable=\x,TolLightOrange,dashed,ultra thick] plot ({\x}, {0.45 + 0.5*\x*\x});
+                    \fill[LavenderBlush4] (0,0) circle (0.05);
+                    \draw[LavenderBlush4,very thick,<->] (-0.2,0.05) -- (-0.2,0.45) node[midway,left] {$\reg$};
+
+                }
+            \end{scope}
+        \end{scope}
+    \end{tikzpicture}
 \end{frame}
 
 % \begin{frame}{BnB -- The full picture}
@@ -615,7 +715,7 @@
                 \node[text width=0.4\linewidth,align=center,font=\small] (relax) at (-3,1.5) {
                     \begin{blockcolor}{mDarkTeal}{Relaxation for region $\nodeSymb$}
                         \centering
-                        $\min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \node{\rfunc}_{\text{lb}}(\pv)$
+                        $\node{\pobj}_{\text{lb}} = \min_{\pv \in \kR^{\pdim}} \lfunc(\pv) + \node{\rfunc}_{\text{lb}}(\pv)$
                     \end{blockcolor}
                 };
                 %
@@ -739,7 +839,7 @@
                     \centering
                     \textbf{Pipeline} \\
                     \begin{enumerate}
-                        \item[\textbf{1a)}] Implement a specialized BnB
+                        \item[\textbf{1a)}] Implement a BnB solver
                         \item[\textbf{1b)}] Use an existing BnB solver 
                         \item[\textbf{2)}] Solve the problem
                     \end{enumerate}
