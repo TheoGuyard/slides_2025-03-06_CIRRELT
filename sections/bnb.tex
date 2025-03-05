@@ -45,7 +45,7 @@
                 %
                 \draw[ultra thick,dashed,->] (middle-problem-bnb) .. controls ($(bnb)+(3.5,1)$) and ($(bnb)+(3.5,-1)$) .. (middle-bnb-solution);
                 %
-                \node[align=center,text width=0.375\textwidth,font=\small] (solver) at ($(bnb)+(5,0)$) {\textbf{Existing BnB solver} \\ $\begin{array}{rcl} \texttt{sbnb} & \rightarrow &  \text{G. Samain \textit{et al.} (2020)} \\  \texttt{l0bnb} & \rightarrow &  \text{H. Hazimeh \textit{et al.} (2021)} \\ \textcolor{TolLightOrange}{\texttt{el0ps}} & \rightarrow &  \text{T. Guyard \textit{et al.} (2024)} \end{array}$};
+                \node[align=center,text width=0.375\textwidth,font=\small] (solver) at ($(bnb)+(5,0)$) {\textbf{Existing BnB solver} \\ $\begin{array}{rcl} \texttt{mimosa} & \rightarrow &  \text{G. Samain \textit{et al.} (2020)} \\  \texttt{l0bnb} & \rightarrow &  \text{H. Hazimeh \textit{et al.} (2021)} \\ \textcolor{TolLightOrange}{\texttt{el0ps}} & \rightarrow &  \text{T. Guyard \textit{et al.} (2024)} \end{array}$};
             }
             %
             %
@@ -482,29 +482,27 @@
             \onslide<2-> {
                 \node (cvx-1d) at (0,1.5) {\textbf{Convex envelope of $\rfunc(\pvi{}) = \reg\norm{\pvi{}}{0} + \pfunc(\pvi{})$ with $\pvi{} \in \kR$}};
                 %
-                \draw[very thick,<->] (cvx) -- (cvx-1d) node[midway,fill=TolLightWhite,draw,font=\small] {$\pfunc$ \textcolor{TolLightOrange}{separable} and \textcolor{TolLightOrange}{coercive}};
+                \draw[very thick,<->] (cvx) -- (cvx-1d) node[midway,fill=TolLightWhite,draw,font=\small] {$\pfunc$ \textcolor{TolLightOrange}{separable}};
             }
             %
             \begin{scope}[yshift=-0.35\textheight,scale=1.5]
                 \onslide<3-> {
-                  \node[right,LavenderBlush4] at (-2.5,2.25) {$\rfunc(\pvi{}) = \reg\norm{\pvi{}}{0} + \pfunc(\pvi{})$};
-                  \draw[ultra thick,->] (-2.5,-0.5) -- (2.5,-0.5) node[right] {$\pvi{}$};
-                  \draw[ultra thick,->] (0,-0.7) -- (0,2.5);
-                  %
-                  \draw[domain=-1.75:-0.05,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
-                  \draw[domain=0.05:1.75,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
-                  \fill[LavenderBlush4] (0,0) circle (0.05);
-                  \draw[LavenderBlush4,ultra thick] (0,0.5) circle (0.05);
-                }
-                %
-                \onslide<4-> {
+                    \node[right,LavenderBlush4] at (-2.5,2.25) {$\rfunc(\pvi{}) = \reg\norm{\pvi{}}{0} + \pfunc(\pvi{})$};
+                    \draw[ultra thick,->] (-2.5,-0.5) -- (2.5,-0.5) node[right] {$\pvi{}$};
+                    \draw[ultra thick,->] (0,-0.7) -- (0,2.5);
+                    %
+                    \draw[domain=-1.75:-0.05,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
+                    \draw[domain=0.05:1.75,smooth,variable=\x,LavenderBlush4,ultra thick] plot ({\x}, {0.5 + 0.5*\x*\x});
+                    \fill[LavenderBlush4] (0,0) circle (0.05);
+                    \draw[LavenderBlush4,ultra thick] (0,0.5) circle (0.05);
+                    %
                     \draw[LavenderBlush4,very thick,<->] (-0.2,0.05) -- (-0.2,0.45) node[midway,left] {$\reg$};
                     \node[below left,LavenderBlush4] at (0,0) {$\pfunc(0)$};
                 }
                 %
                 %
                 %
-                \onslide<5-> {
+                \onslide<4-> {
                   \draw[very thick,dashed] (0,0) -- (2,1.95);
                   \fill[LavenderBlush4] (0,0) circle (0.05);
                   \fill[mDarkTeal] (1,0.95) circle (0.05);
@@ -512,7 +510,7 @@
                 %
                 %
                 %
-                \onslide<6-> {
+                \onslide<5-> {
                   \draw[ultra thick,TolLightOrange,dashed] (0,0) -- (1,0.975);
                   \draw[domain=1:1.75,smooth,variable=\x,TolLightOrange,dashed,ultra thick] plot ({\x}, {0.45 + 0.5*\x*\x});
                   \fill[LavenderBlush4] (0,0) circle (0.05);
@@ -521,7 +519,7 @@
                 %
                 %
                 %
-                \onslide<7-> {
+                \onslide<6-> {
                     \draw[ultra thick,TolLightOrange,dashed] (-1,0.975) -- (0,0);
                     \draw[domain=-1.75:-1,smooth,variable=\x,TolLightOrange,dashed,ultra thick] plot ({\x}, {0.45 + 0.5*\x*\x});
                     \fill[LavenderBlush4] (0,0) circle (0.05);
